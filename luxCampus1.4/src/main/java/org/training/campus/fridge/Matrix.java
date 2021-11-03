@@ -3,6 +3,7 @@ package org.training.campus.fridge;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.StringJoiner;
 
 public class Matrix implements Iterable<Matrix.Position> {
@@ -84,32 +85,86 @@ public class Matrix implements Iterable<Matrix.Position> {
 		return join.toString();
 	}
 
+	private class MatrixIterator implements Iterator<Position> {
+		private int row;
+		private int col;
+
+		private MatrixIterator() {
+			row = 0;
+			col = 0;
+		}
+
+		@Override
+		public boolean hasNext() {
+			return row < data.length - 1 || (row == data.length - 1 && col < data[row].length);
+		}
+
+		@Override
+		public Position next() {
+			if (!hasNext())
+				throw new NoSuchElementException("no more positions in matrix");
+			Position position = new Position(row, col);
+			if (col < data[row].length - 1) {
+				col++;
+			} else {
+				row++;
+				col = 0;
+			}
+			return position;
+		}
+	}
+
 	@Override
 	public Iterator<Position> iterator() {
-		return new Iterator<>() {
-			private int row = 0;
-			private int col = 0;
+		return new MatrixIterator();
+	}
 
-			@Override
-			public boolean hasNext() {
-				return row < data.length - 1 || (row == data.length - 1 && col < data[row].length);
-			}
+	private class NonvisitedPositionsIterator implements Iterator<Position> {
+		private MatrixIterator iterator;
+		private Path visitedPositions;
+		private Position nextPosition;
 
-			@Override
-			public Position next() {
-				if (!hasNext())
-					throw new NoSuchElementException("no more elements");
-				Position position = new Position(row, col);
-				if (col < data[row].length - 1) {
-					col++;
-				} else {
-					row++;
-					col = 0;
+		private NonvisitedPositionsIterator(Path visitedPositions) {
+			this.iterator = new MatrixIterator();
+			this.visitedPositions = visitedPositions;
+			nextPosition = null;
+		}
+
+		private Position findNonvisitedPosition() {
+			while (iterator.hasNext()) {
+				Position position = iterator.next();
+				if (!visitedPositions.contains(position)) {
+					return position;
 				}
-				return position;
 			}
+			return null;
+		}
 
-		};
+		@Override
+		public boolean hasNext() {
+			if (Objects.isNull(nextPosition)) {
+				nextPosition = findNonvisitedPosition();
+			}
+			return Objects.nonNull(nextPosition);
+		}
+
+		@Override
+		public Position next() {
+			if(!hasNext()) {
+				throw new NoSuchElementException("no more non-visited positions in matrix");
+			}
+			Position next = nextPosition;
+			if (Objects.isNull(next)) {
+				next = findNonvisitedPosition();
+			}
+			nextPosition = null;
+			return next;
+		}
+
+	}
+	
+	public Iterator<Position> nonvisitedPositionsIterator(Path excludePositions) {
+		return new NonvisitedPositionsIterator(excludePositions); 
 	}
 
 }

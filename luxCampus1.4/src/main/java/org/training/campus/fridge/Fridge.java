@@ -1,5 +1,6 @@
 package org.training.campus.fridge;
 
+import java.util.Iterator;
 import java.util.List;
 import org.training.campus.fridge.Matrix.Position;
 import org.training.campus.fridge.Matrix.State;
