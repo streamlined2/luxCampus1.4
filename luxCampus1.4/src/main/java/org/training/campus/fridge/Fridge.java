@@ -1,8 +1,5 @@
 package org.training.campus.fridge;
 
-import java.util.Iterator;
-import java.util.List;
-import org.training.campus.fridge.Matrix.Position;
 import org.training.campus.fridge.Matrix.State;
 
 public class Fridge {
@@ -17,7 +14,7 @@ public class Fridge {
 		Matrix matrix = new Matrix(SAMPLE);
 		System.out.printf("Original matrix is%n%s%n%n", matrix);
 		Solver solver = new Solver(matrix);
-		List<Position> positions = solver.solve();
+		Path positions = solver.solve();
 		System.out.printf("Solution took %d steps%nList of handles turned: %s%nResulting matrix is%n%s%n",
 				positions.size(), positions, matrix);
 	}

@@ -1,8 +1,5 @@
 package org.training.campus.fridge;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.training.campus.fridge.Matrix.Position;
 
 public class Solver {
@@ -16,8 +13,8 @@ public class Solver {
 		return matrix.getCrossWeight(position) % 2 == 1;
 	}
 
-	public List<Position> solve() {
-		List<Position> positions = new LinkedList<>();
+	public Path solve() {
+		Path positions = new Path();
 		for (Position position : matrix) {
 			if (flippable(position)) {
 				matrix.turnHandle(position);

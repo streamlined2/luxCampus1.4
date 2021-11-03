@@ -150,7 +150,7 @@ public class Matrix implements Iterable<Matrix.Position> {
 
 		@Override
 		public Position next() {
-			if(!hasNext()) {
+			if (!hasNext()) {
 				throw new NoSuchElementException("no more non-visited positions in matrix");
 			}
 			Position next = nextPosition;
@@ -162,9 +162,9 @@ public class Matrix implements Iterable<Matrix.Position> {
 		}
 
 	}
-	
+
 	public Iterator<Position> nonvisitedPositionsIterator(Path excludePositions) {
-		return new NonvisitedPositionsIterator(excludePositions); 
+		return new NonvisitedPositionsIterator(excludePositions);
 	}
 
 }
