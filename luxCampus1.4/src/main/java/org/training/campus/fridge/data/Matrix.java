@@ -1,9 +1,8 @@
-package org.training.campus.fridge;
+package org.training.campus.fridge.data;
 
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.StringJoiner;
 
 public class Matrix implements Iterable<Matrix.Position> {
@@ -44,6 +43,23 @@ public class Matrix implements Iterable<Matrix.Position> {
 		}
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Matrix m) {
+			for (int k = 0; k < data.length; k++) {
+				if (!Arrays.equals(data[k], m.data[k]))
+					return false;
+			}
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return Arrays.hashCode(data);
+	}
+
 	private void flipCell(int row, int col) {
 		data[row][col] = State.opposite(data[row][col]);
 	}
@@ -60,6 +76,12 @@ public class Matrix implements Iterable<Matrix.Position> {
 		}
 	}
 
+	public void turnHandles(Path path) {
+		for (Position position : path) {
+			turnHandle(position);
+		}
+	}
+
 	public int getCrossWeight(Position position) {
 		int value = 0;
 		for (int k = 0; k < data[position.row].length; k++) {
@@ -72,6 +94,16 @@ public class Matrix implements Iterable<Matrix.Position> {
 			value += data[i][position.col].weight();
 		}
 		return value;
+	}
+
+	public boolean isSolved() {
+		for (int row = 0; row < data.length; row++) {
+			for (int col = 0; col < data[row].length; col++) {
+				if (data[row][col] == State.VERTICAL)
+					return false;
+			}
+		}
+		return true;
 	}
 
 	@Override
@@ -142,10 +174,10 @@ public class Matrix implements Iterable<Matrix.Position> {
 
 		@Override
 		public boolean hasNext() {
-			if (Objects.isNull(nextPosition)) {
+			if (nextPosition == null) {
 				nextPosition = findNonvisitedPosition();
 			}
-			return Objects.nonNull(nextPosition);
+			return nextPosition != null;
 		}
 
 		@Override
@@ -154,7 +186,7 @@ public class Matrix implements Iterable<Matrix.Position> {
 				throw new NoSuchElementException("no more non-visited positions in matrix");
 			}
 			Position next = nextPosition;
-			if (Objects.isNull(next)) {
+			if (next == null) {
 				next = findNonvisitedPosition();
 			}
 			nextPosition = null;

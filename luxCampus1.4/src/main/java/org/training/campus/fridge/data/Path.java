@@ -1,17 +1,19 @@
-package org.training.campus.fridge;
+package org.training.campus.fridge.data;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.StringJoiner;
 
-import org.training.campus.fridge.Matrix.Position;
+import org.training.campus.fridge.data.Matrix.Position;
 
-public class Path {
+public class Path implements Iterable<Position> {
+	private static final int START_PATH_LENGTH = 20;
 	private List<Position> positions;
 
 	public Path() {
-		positions = new LinkedList<>();
+		positions = new ArrayList<>(START_PATH_LENGTH);
 	}
 
 	public Path(Path path, Position... positionList) {
@@ -37,6 +39,11 @@ public class Path {
 
 	public boolean contains(Position position) {
 		return positions.contains(position);
+	}
+
+	@Override
+	public Iterator<Position> iterator() {
+		return positions.iterator();
 	}
 
 }

@@ -1,11 +1,13 @@
-package org.training.campus.fridge;
+package org.training.campus.fridge.solver;
 
-import org.training.campus.fridge.Matrix.Position;
+import org.training.campus.fridge.data.Matrix;
+import org.training.campus.fridge.data.Path;
+import org.training.campus.fridge.data.Matrix.Position;
 
-public class Solver {
+public class SimpleSolver {
 	private Matrix matrix;
 
-	public Solver(Matrix matrix) {
+	public SimpleSolver(Matrix matrix) {
 		this.matrix = matrix;
 	}
 

@@ -1,7 +1,9 @@
-package org.training.campus.fridge;
+package org.training.campus.fridge.solver.breadthfirst;
 
 import java.util.Deque;
 import java.util.LinkedList;
+
+import org.training.campus.fridge.data.Path;
 
 public class CandidateQueue {
 	private Deque<Path> deque;
@@ -17,7 +19,7 @@ public class CandidateQueue {
 	public Path getCandidate() {
 		return deque.pollFirst();
 	}
-	
+
 	public boolean isEmpty() {
 		return deque.isEmpty();
 	}
