@@ -5,10 +5,14 @@ import org.training.campus.fridge.data.Path;
 import org.training.campus.fridge.data.SolutionList;
 
 public class BreadthFirstSolver {
-	private Matrix matrix;
+	private final Matrix matrix;
+	private final int numberOfSolutions;
+	private final int maxLevelToReach;
 
-	public BreadthFirstSolver(Matrix matrix) {
+	public BreadthFirstSolver(Matrix matrix, int numberOfSolutions, int maxLevelToReach) {
 		this.matrix = matrix;
+		this.numberOfSolutions = numberOfSolutions;
+		this.maxLevelToReach = maxLevelToReach;
 	}
 
 	public SolutionList solve() {
@@ -22,14 +26,19 @@ public class BreadthFirstSolver {
 				matrix.turnHandles(newPath);
 				if (matrix.isSolved()) {
 					solutions.add(newPath);
-				}else {
+				} else {
 					candidates.addCandidate(newPath);
 				}
 				matrix.turnHandles(newPath);
 			}
 			path = candidates.getCandidate();
-		} while (path != null);
+			//System.gc();
+		} while (path != null && proceed(solutions.size(), path.size()));
 		return solutions;
+	}
+
+	private boolean proceed(int solutionsFound, int levelReached) {
+		return solutionsFound < numberOfSolutions && levelReached <= maxLevelToReach;
 	}
 
 }

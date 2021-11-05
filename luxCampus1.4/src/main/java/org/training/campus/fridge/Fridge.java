@@ -11,17 +11,19 @@ import org.training.campus.fridge.solver.breadthfirst.BreadthFirstSolver;
 
 public class Fridge {
 
-	private static final State SAMPLE[][] = {//OutOfMemoryError 
+	public static final int MAX_NUMBER_OF_SOLUTIONS = 1000_000_000;
+	public static final int MAX_LEVEL_TO_REACH = 100;
+
+	private static final State SAMPLE[][] = { // OutOfMemoryError
 			{ State.HORIZONTAL, State.VERTICAL, State.HORIZONTAL, State.HORIZONTAL },
 			{ State.VERTICAL, State.HORIZONTAL, State.HORIZONTAL, State.VERTICAL },
 			{ State.HORIZONTAL, State.HORIZONTAL, State.VERTICAL, State.HORIZONTAL },
 			{ State.VERTICAL, State.VERTICAL, State.HORIZONTAL, State.HORIZONTAL } };
 
 	private static final State SAMPLE2[][] = {
-		{State.VERTICAL,State.VERTICAL,State.VERTICAL},
-		{State.VERTICAL,State.HORIZONTAL,State.HORIZONTAL},
-		{State.VERTICAL,State.HORIZONTAL,State.HORIZONTAL}
-	};
+			{ State.VERTICAL, State.VERTICAL, State.VERTICAL }, 
+			{ State.VERTICAL, State.HORIZONTAL, State.HORIZONTAL },
+			{ State.VERTICAL, State.HORIZONTAL, State.HORIZONTAL } };
 
 	public static void main(String[] args) throws IOException {
 		var matrix = new Matrix(SAMPLE2);
@@ -36,10 +38,10 @@ public class Fridge {
 			System.out.println("Quick search failed, no solution found.");
 		}
 
-		var bfsSolver = new BreadthFirstSolver(new Matrix(SAMPLE2));
+		var bfsSolver = new BreadthFirstSolver(new Matrix(SAMPLE2), MAX_NUMBER_OF_SOLUTIONS, MAX_LEVEL_TO_REACH);
 		var solutionList = bfsSolver.solve();
 		if (solutionList.isEmpty()) {
-			System.out.println("\nBFS search haven't yielded any results");
+			System.out.println("\nBFS search hasn't yielded any results.");
 		} else {
 			File output = new File("output");
 			solutionList.save(output);
