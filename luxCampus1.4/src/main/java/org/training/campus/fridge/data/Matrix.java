@@ -25,10 +25,22 @@ public class Matrix implements Iterable<Matrix.Position> {
 		}
 	}
 
-	public record Position(int row, int col) {
+	public record Position(int row, int col) implements Comparable<Position> {
+
 		@Override
 		public String toString() {
 			return new StringJoiner(",", "{", "}").add(Integer.toString(row)).add(Integer.toString(col)).toString();
+		}
+
+		@Override
+		public int compareTo(Position p) {
+			if (row < p.row) {
+				return -1;
+			} else if (row > p.row) {
+				return 1;
+			} else {
+				return Integer.compare(col, p.col);
+			}
 		}
 	}
 

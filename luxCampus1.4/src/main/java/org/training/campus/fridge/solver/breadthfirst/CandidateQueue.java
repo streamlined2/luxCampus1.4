@@ -1,27 +1,29 @@
 package org.training.campus.fridge.solver.breadthfirst;
 
-import java.util.Deque;
-import java.util.LinkedList;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.training.campus.fridge.data.Path;
 
 public class CandidateQueue {
-	private Deque<Path> deque;
+	private SortedSet<Path> candidates;
 
 	public CandidateQueue() {
-		deque = new LinkedList<>();
+		candidates = new TreeSet<>();
 	}
 
 	public void addCandidate(Path path) {
-		deque.addLast(path);
+		candidates.add(path);
 	}
 
 	public Path getCandidate() {
-		return deque.pollFirst();
+		Path candidate = candidates.first();
+		candidates.remove(candidate);
+		return candidate;
 	}
 
 	public boolean isEmpty() {
-		return deque.isEmpty();
+		return candidates.isEmpty();
 	}
 
 }

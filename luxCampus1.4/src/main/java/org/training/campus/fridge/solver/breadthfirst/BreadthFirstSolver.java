@@ -19,7 +19,9 @@ public class BreadthFirstSolver {
 		var solutions = new SolutionList();
 		var candidates = new CandidateQueue();
 		var path = new Path();
-		do {
+		candidates.addCandidate(path);
+		while (!candidates.isEmpty() && proceed(solutions.size(), path.size())) {
+			path = candidates.getCandidate();
 			var iter = matrix.nonvisitedPositionsIterator(path);
 			while (iter.hasNext()) {
 				var newPath = new Path(path, iter.next());
@@ -31,9 +33,7 @@ public class BreadthFirstSolver {
 				}
 				matrix.turnHandles(newPath);
 			}
-			path = candidates.getCandidate();
-			//System.gc();
-		} while (path != null && proceed(solutions.size(), path.size()));
+		}
 		return solutions;
 	}
 

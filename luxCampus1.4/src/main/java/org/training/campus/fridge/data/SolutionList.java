@@ -6,23 +6,23 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.SortedSet;
 import java.util.StringJoiner;
+import java.util.TreeSet;
 
 public class SolutionList implements Iterable<Path> {
-	private List<Path> list;
+	private SortedSet<Path> solutions;
 
 	public SolutionList() {
-		list = new LinkedList<>();
+		solutions = new TreeSet<>();
 	}
 
 	public void add(Path path) {
-		list.add(path);
+		solutions.add(path);
 	}
 
 	public boolean isEmpty() {
-		return list.isEmpty();
+		return solutions.isEmpty();
 	}
 
 	@Override
@@ -34,16 +34,16 @@ public class SolutionList implements Iterable<Path> {
 
 	@Override
 	public Iterator<Path> iterator() {
-		return list.iterator();
+		return solutions.iterator();
 	}
-	
+
 	public int size() {
-		return list.size();
+		return solutions.size();
 	}
-	
+
 	public void save(File file) throws IOException {
-		try(DataOutputStream os = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(file)))){
-			for(Path path:this) {
+		try (DataOutputStream os = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(file)))) {
+			for (Path path : this) {
 				os.writeChars(path.toString());
 				os.writeChars("\n");
 			}
